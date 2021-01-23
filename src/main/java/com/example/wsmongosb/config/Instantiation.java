@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.wsmongosb.domain.Post;
 import com.example.wsmongosb.domain.User;
+import com.example.wsmongosb.dto.AuthorDTO;
 import com.example.wsmongosb.repositories.PostRepository;
 import com.example.wsmongosb.repositories.UserRepository;
 
@@ -35,12 +36,15 @@ public class Instantiation implements CommandLineRunner{
 		User alex = new User(null, "Alex Green", "alex@gmail.com");
 		User bob = new User(null, "Bob Grey", "bob@gmail.com");
 		
-		Post p1 = new Post(null,sdfm.parse("21/03/2018"), "partiu viagem", "vou viajar pra sp", maria);
-		Post p2 = new Post(null,sdfm.parse("23/06/2018"), "Bom diaa", "acordei feliz hoje", maria);
-		
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));
+		
+		Post p1 = new Post(null,sdfm.parse("21/03/2018"), "partiu viagem", "vou viajar pra sp", new AuthorDTO(maria));
+		Post p2 = new Post(null,sdfm.parse("23/06/2018"), "Bom diaa", "acordei feliz hoje", new AuthorDTO(maria));
+		
 		postRepository.saveAll(Arrays.asList(p1,p2));
 		
+		maria.getPosts().addAll(Arrays.asList(p1,p2));
+		userRepository.save(maria);
 	}
 
 }

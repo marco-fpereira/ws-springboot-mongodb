@@ -1,8 +1,11 @@
 package com.example.wsmongosb.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="user")
@@ -14,6 +17,13 @@ public class User implements Serializable {
 	private String id;
 	private String name;
 	private String email;
+	
+	//DBRef is used to show that an attribute is referencing another MongoDB collection 
+	/*"lazy = true" is used to say that we don't wanna automatically load this collection when we 
+	 * retrieve a User from the database, only load it when we explicitly wanna load the collection
+	 * */
+	@DBRef(lazy = true)
+	private List<Post> posts = new ArrayList<>();
 	
 	public User() {}
 
@@ -46,6 +56,10 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
 	}
 
 	@Override

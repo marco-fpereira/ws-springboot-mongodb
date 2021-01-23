@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.example.wsmongosb.dto.AuthorDTO;
+
 @Document
 public class Post implements Serializable{
 	
@@ -15,16 +17,16 @@ public class Post implements Serializable{
 	private String title;
 	private String body;
 	
-	private User author;
+	private AuthorDTO author;
 	
 	public Post() {}
 
-	public Post(String id, Date date, String title, String body, User author) {
+	public Post(String id, Date date, String title, String body, AuthorDTO author) {
 		this.id = id;
 		this.date = date;
 		this.title = title;
 		this.body = body;
-		this.setAuthor(author);
+		this.author = author;
 	}
 
 	public String getId() {
@@ -59,11 +61,11 @@ public class Post implements Serializable{
 		this.body = body;
 	}
 
-	public User getAuthor() {
+	public AuthorDTO getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(User author) {
+	public void setAuthor(AuthorDTO author) {
 		this.author = author;
 	}
 
