@@ -1,6 +1,7 @@
 package com.example.wsmongosb.resources;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,21 @@ public class PostResource {
 	public ResponseEntity<List<Post>> findByTitle(@RequestParam(value="text", defaultValue="") String text){
 		text = URL.decodeParam(text);
 		List<Post> list = postService.findByTitle(text);
+		
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@RequestMapping(value = "/fullsearch",method=RequestMethod.GET)
+	public ResponseEntity<List<Post>> fullsearch(
+			@RequestParam(value="text", defaultValue="") String text,
+			@RequestParam(value="text", defaultValue="") String d1,
+			@RequestParam(value="text", defaultValue="") String d2) {
+		
+		text = URL.decodeParam(text);
+		Date minDate = URL.decodeDate(d1, new Date(0L));
+		Date maxDate = URL.decodeDate(d2, new Date());
+		
+		List<Post> list = postService.findString(text, minDate, maxDate);
 		
 		return ResponseEntity.ok().body(list);
 	}

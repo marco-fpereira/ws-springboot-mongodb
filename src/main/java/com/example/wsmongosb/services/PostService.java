@@ -1,5 +1,6 @@
 package com.example.wsmongosb.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,12 @@ public class PostService {
 	}
 	
 	public List<Post> findByTitle(String text){
-		return postRepository.findByTitleContainingIgnoreCase(text);
+		//return postRepository.findByTitleContainingIgnoreCase(text);
+		return postRepository.findByTitle(text);
+	}
+	
+	public List<Post> findString(String text, Date d1, Date d2){
+		d2 = new Date(d2.getTime()+24*60*60*1000);
+		return postRepository.findString(text, d1, d2);
 	}
 }
